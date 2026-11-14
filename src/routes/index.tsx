@@ -35,8 +35,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const EMAIL = BUSINESS.email;
-
 function Reviews() {
   const [index, setIndex] = useState(0);
   const [per, setPer] = useState(2);
