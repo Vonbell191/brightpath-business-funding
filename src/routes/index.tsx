@@ -47,7 +47,9 @@ function Reviews() {
     return () => mq.removeEventListener("change", update);
   }, []);
   const n = REVIEWS.length;
-  const shown = Array.from({ length: per }, (_, offset) => REVIEWS[(index + offset) % n]);
+  const shown = Array.from({ length: per }, (_, offset) => REVIEWS[(index + offset) % n]).filter(
+    (r): r is (typeof REVIEWS)[number] => r !== undefined,
+  );
   return (
     <>
       <div id="review-cards" className="reviews-grid">
