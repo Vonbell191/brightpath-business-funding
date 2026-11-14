@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { supabase } from "@/integrations/supabase/client";
 import ddr5 from "@/assets/ddr5-gaming-pc.jpg.asset.json";
 import gtx1080 from "@/assets/gtx1080-gaming-pc.jpg.asset.json";
 import gtx1070 from "@/assets/gtx1070-gaming-pc.jpg.asset.json";
@@ -83,13 +84,11 @@ function Reviews() {
   );
 }
 
-type Draft = { mailto: string; text: string };
+type SubmitState = "idle" | "sending" | "sent" | "error";
 
 function Index() {
-  const [draft, setDraft] = useState<Draft | null>(null);
-  const [copyStatus, setCopyStatus] = useState("");
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const panelRef = useRef<HTMLDivElement>(null);
-  const draftRef = useRef<HTMLTextAreaElement>(null);
 
   // "Ask about…" buttons anywhere on the page (header pills included) jump to the quote form.
   useEffect(() => {
@@ -113,40 +112,29 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    if (draft) panelRef.current?.scrollIntoView({ block: "nearest" });
-  }, [draft]);
+    if (submitState === "sent" || submitState === "error")
+      panelRef.current?.scrollIntoView({ block: "nearest" });
+  }, [submitState]);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const subject = `Quote inquiry: ${f.get("department")}`;
-    const body = `Hello Amelia Tech & Auto,
-
-Name: ${f.get("name")}
-Email: ${f.get("email")}
-Phone: ${f.get("phone") || "Not provided"}
-Department: ${f.get("department")}
-Budget / model: ${f.get("details") || "Not provided"}
-
-${f.get("message")}
-
-Please contact me to discuss pricing and availability.`;
-    setDraft({
-      mailto: `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-      text: `To: ${EMAIL}\nSubject: ${subject}\n\n${body}`,
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    setSubmitState("sending");
+    const { error } = await supabase.from("quote_requests").insert({
+      name: String(f.get("name") ?? "").slice(0, 100),
+      email: String(f.get("email") ?? "").slice(0, 160),
+      phone: String(f.get("phone") ?? "").slice(0, 40) || null,
+      department: String(f.get("department") ?? ""),
+      details: String(f.get("details") ?? "").slice(0, 200) || null,
+      message: String(f.get("message") ?? "").slice(0, 2000),
     });
-    setCopyStatus("");
-  };
-
-  const copyDraft = async () => {
-    try {
-      await navigator.clipboard.writeText(draft?.text ?? "");
-      setCopyStatus("Copied. Paste into your email service, review, and send.");
-    } catch {
-      draftRef.current?.focus();
-      draftRef.current?.select();
-      setCopyStatus("The draft is selected. Use Copy on your device, then paste it into your email service.");
+    if (error) {
+      setSubmitState("error");
+      return;
     }
+    form.reset();
+    setSubmitState("sent");
   };
 
   return (
