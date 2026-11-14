@@ -30,7 +30,8 @@ describe("business listing details", () => {
   });
 
   it("is open Monday to Saturday, 9 AM to 6 PM", () => {
-    expect(ld.openingHoursSpecification[0]).toMatchObject({ opens: "09:00", closes: "18:00" });
-    expect(ld.openingHoursSpecification[0].dayOfWeek).toHaveLength(6);
+    const [hours] = ld.openingHoursSpecification;
+    expect(hours).toMatchObject({ opens: "09:00", closes: "18:00" });
+    expect(hours?.dayOfWeek).toHaveLength(6);
   });
 });

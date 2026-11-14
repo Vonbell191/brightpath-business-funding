@@ -103,8 +103,8 @@ function Index() {
     const onClick = (e: MouseEvent) => {
       const el = (e.target as HTMLElement).closest<HTMLElement>("[data-dept],[data-build]");
       if (!el) return;
-      if (el.dataset.build) startInquiry("Computer Sales", el.dataset.build);
-      else if (el.dataset.dept) startInquiry(el.dataset.dept);
+      if (el.dataset["build"]) startInquiry("Computer Sales", el.dataset["build"]);
+      else if (el.dataset["dept"]) startInquiry(el.dataset["dept"]);
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
