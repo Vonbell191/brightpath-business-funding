@@ -120,12 +120,12 @@ function Index() {
     const f = new FormData(form);
     setSubmitState("sending");
     const { error } = await supabase.from("quote_requests").insert({
-      name: String(f.get("name") ?? "").slice(0, 100),
-      email: String(f.get("email") ?? "").slice(0, 160),
-      phone: String(f.get("phone") ?? "").slice(0, 40) || null,
+      name: String(f.get("name") ?? "").trim().slice(0, 100),
+      email: String(f.get("email") ?? "").trim().slice(0, 160),
+      phone: String(f.get("phone") ?? "").trim().slice(0, 40) || null,
       department: String(f.get("department") ?? ""),
-      details: String(f.get("details") ?? "").slice(0, 200) || null,
-      message: String(f.get("message") ?? "").slice(0, 2000),
+      details: String(f.get("details") ?? "").trim().slice(0, 200) || null,
+      message: String(f.get("message") ?? "").trim().slice(0, 2000),
     });
     if (error) {
       setSubmitState("error");
