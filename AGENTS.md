@@ -32,3 +32,4 @@ use the editor.
 ## Project rules
 - The site's look comes from the owner's original stylesheet in `src/styles/amelia.css` (Tailwind preflight is intentionally not loaded); extend that file rather than restyling with utilities, because the owner asked that their page design not change.
 - Business name, address, phone, email and hours live in `src/lib/business.ts` and feed the structured data and policy pages; keep every copy on the site matching it, because lenders and Apple Business verify these details match.
+- Site photos are real image files in `src/assets` imported directly, never Lovable CDN `.asset.json` pointers, because the owner also deploys from GitHub to Cloudflare where `/__l5e/` URLs don't exist.
