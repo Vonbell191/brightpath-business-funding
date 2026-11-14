@@ -46,10 +46,10 @@ function PrivacyPage() {
 
               <h2>Information we collect</h2>
               <p>
-                The quote form on this website does not send or store anything on our servers. It only prepares an
-                email that you review and send yourself from your own email app.
+                When you send the quote form on this website, the details you enter are stored securely so we can
+                read your request and get back to you. Only we can see these submissions.
               </p>
-              <p>When you call, text, or email us, we receive the information you choose to share, such as:</p>
+              <p>When you call, text, email, or use the quote form, we receive the information you choose to share, such as:</p>
               <ul>
                 <li>Your name, phone number, and email address</li>
                 <li>Details about your computer, vehicle, budget, or the service you need</li>
