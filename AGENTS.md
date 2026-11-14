@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- The site's look comes from the owner's original stylesheet in `src/styles/amelia.css` (Tailwind preflight is intentionally not loaded); extend that file rather than restyling with utilities, because the owner asked that their page design not change.
+- Business name, address, phone, email and hours live in `src/lib/business.ts` and feed the structured data and policy pages; keep every copy on the site matching it, because lenders and Apple Business verify these details match.
