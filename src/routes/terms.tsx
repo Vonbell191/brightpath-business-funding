@@ -82,7 +82,7 @@ function TermsPage() {
               <p>Any warranty or return terms are given in writing on your invoice or receipt.</p>
 
               <h2>Payment</h2>
-              <p>Payment terms are confirmed on your estimate or invoice before work begins.</p>
+              <p>We accept Cash App, Zelle, Apple Pay, Google Pay, and cash. Payment terms are confirmed on your estimate or invoice before work begins.</p>
 
               <h2>Questions</h2>
               <p>
